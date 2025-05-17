@@ -1,0 +1,78 @@
+import time
+from machine import Pin
+
+def interpreter(filepath, conn):
+    code = []
+    lcode = []
+    lcodeap = False
+    fcodeap = False
+    fcodebuffer=[]
+    with open(filepath, "r") as f:
+        fcont = f.readlines()
+        for line in fcont:
+            if '//' in line:
+                line = line[:line.index('//')]
+            code.append(line.strip())
+
+    def interpre(cln):
+        nonlocal lcodeap  # Yerel değişken olarak yukarıdaki tanımı kullan
+        if lcodeap and cln != "]*":
+            lcode.append(cln)
+        elif lcodeap and cln == "]*":
+            lcodeap = False
+        elif fcodeap and cln != "];"
+            fcodebuffer.append(cln)
+        elif fcodeap and cln == "];"
+            fcodeap=False
+        else:
+            if cln.startswith("print"):
+                print(cln.split('/')[1])
+            elif cln.startswith("dly"):
+                time.sleep(int(cln.split('/')[1]) / 1000)  # ms → s
+            elif cln.startswith("cprint"):
+                conn.write(cln.split('/')[1].encode('utf-8'))
+            elif cln.startswith("dgpıo"):
+                try:
+                    args = cln.split('/')[1].split(',')
+                    pn = int(args[0])
+                    mode = args[1].strip().lower()
+                    globals()[f"p{pn}"] = Pin(pn, Pin.OUT if mode == "out" else Pin.IN)
+                except Exception as e:
+                    conn.send(f"GPIO Error: {str(e)}".encode('utf-8'))
+            elif cln.startswith("vgpıo"):
+                try:
+                    args = cln.split('/')[1].split(',')
+                    pn = int(args[0])
+                    val = int(args[1])
+                    if f"p{pn}" in globals():
+                        globals()[f"p{pn}"].value(val)
+                except Exception as e:
+                    conn.send(f"GPIO Value Error: {str(e)}".encode('utf-8'))
+            elif cln.startswith("lp["):
+                lcodeap = True
+            elif cln.startswith("for")
+                rpn=int(str(cln.split('/')[1])[0:])
+                
+                
+                    
+
+    for cln in code:
+        interpre(cln)
+
+    if len(lcode)>0:
+     while True:
+        for lcln in lcode:
+            interpre(lcln)
+    if len(fcodebuffer)>0:
+        rpc=0
+        for _ in rpn:
+            interpre(fcodebuffer)
+            
+            
+            
+            
+            
+            
+            
+            
+            
