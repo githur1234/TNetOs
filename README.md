@@ -1,39 +1,75 @@
-# TNetOs
-TNetOs esp32 mcropython tabanlı beta işletim sistemi 
+# 🛰️ TNetOs
 
-# Kullanım
-## micropython kurulum
-  micropython esp32 için kurun [buradan](https://micropython.org/download/ESP32_GENERIC/) kurulum sayfasına gidebilirsiniz
-## python kurulum
-  Pythonu resmi sitesinden python 3.13.3 ü kurmanızı öneriririz
-## Thonny ıde kurun
-  Thonny ıdeyi [buradan](https://thonny.org/) indirebilirsiniz
-## TNetOs kurulum
-  git ile veya zip ile indirerek depoyu kurun
-  zip ile indirdiyseniz zipi ayıklayın
-  con.py dosyasını çıkarın(bu esp32 ye tcp ile bağlanarak komut çalıştırmanızı sağlar)
-  kalan dosyalardan avr.ino yu da arduıno ıde ile arduınoya kurun (zorunlu değil ama gpıo pinlerini esp32 arduıno üzerinden yönetir kodu optimize edebilirsiniz)
-  Thnonny ıdeyi açın ve Tool>Options>ınterpreter>Micropython (esp32) seçin
-  repl ekranı gelmesi gerekir test için bu kodu yapıştırın:
-  '''python
-   from machine import Pin
-   import time
-   led=Pin(2,Pin.OUT)
-   while True:
-    led.value(0)
-    time.sleep(1)
-    led.value(1)
-    time.sleep(1)
-  bu kod esp32 içindeki dahili mavi ledi yanıp söndürür
-  eğer çalıştıysa diğer dosyaları  esp32 nin içine atın 
-  config.json daki ntky yi kendi ağ şifrenle
-  ntwn yi kendi ağ adınla değiştir
-  sonra  ctr+s ile dosyları kayıt edin 
-## çalıştırma
- repl terminalinde bu komudu çalıştırın:'import machine;machine.reset()'
- bu esp32 ye soft reset atar attıktan sonra terminal ekranında kendi ağ adın ve şifren yazar 
- wifiya bağlanana kadar 'connecting to wifi...' shell ekranında gözükür
- bağlandığı zaman 'IP Adress:192.168.x.xx' yazar
- başta verilen conn.py ı çalıştırın 'esp32 ıp>>' yazan yere esp32 nin ıpsini yazın 
- eğer bağlandıysa esp32 nin genel bir ınfosunu size yazdırır
- ve bu kadar artık esp32 nin içindeki araçları kullanabilirsiniz(Not:araçlar burada belirtilmemiştir)
+**TNetOs**, ESP32 için geliştirilen, MicroPython tabanlı bir beta işletim sistemidir.
+
+## ⚙️ Kurulum Adımları
+
+### 🔹 MicroPython Kurulumu
+ESP32 için MicroPython firmware’ini [buradan](https://micropython.org/download/ESP32_GENERIC/) indirip yükleyin.
+
+### 🔹 Python Kurulumu
+Python'un [resmi web sitesinden](https://www.python.org/downloads/) **Python 3.13.3** sürümünü indirip kurmanızı öneririz.
+
+### 🔹 Thonny IDE Kurulumu
+[Thonny IDE](https://thonny.org/)’yi indirerek kurun.
+
+## 🛠️ TNetOs Yükleme
+
+1. Depoyu `git clone` ile ya da `.zip` olarak indirip çıkarın.
+2. `con.py` dosyasını dışarıya alın. (Bu dosya, ESP32'ye TCP üzerinden bağlanıp komut çalıştırmanızı sağlar.)
+3. `avr.ino` dosyasını isterseniz Arduino IDE üzerinden bir Arduino karta yükleyin (isteğe bağlı). Bu sayede GPIO pinlerini Arduino üzerinden yönetebilirsiniz.
+4. Thonny IDE’yi açın:
+    - **Tools > Options > Interpreter**
+    - **MicroPython (ESP32)** seçeneğini seçin.
+5. REPL ekranı geldikten sonra aşağıdaki kodu yapıştırarak LED testini gerçekleştirin:
+
+    ```python
+    from machine import Pin
+    import time
+
+    led = Pin(2, Pin.OUT)
+
+    while True:
+        led.value(0)
+        time.sleep(1)
+        led.value(1)
+        time.sleep(1)
+    ```
+
+6. Kod çalışıyorsa, diğer dosyaları ESP32’ye yükleyin.
+7. `config.json` dosyasını açın ve aşağıdaki alanları kendi Wi-Fi bilgilerinize göre güncelleyin:
+
+    ```json
+    {
+      "ntky": "WIFI_ŞİFREN",
+      "ntwn": "WIFI_ADIN"
+    }
+    ```
+
+8. Tüm dosyaları kaydedin (`Ctrl + S`).
+
+## ▶️ TNetOs'u Çalıştırma
+
+1. REPL terminaline şu komutu yazın:
+
+    ```python
+    import machine
+    machine.reset()
+    ```
+
+2. Terminal ekranında şu satırları görmelisiniz:
+
+    ```
+    connecting to wifi...
+    IP Address: 192.168.x.xx
+    ```
+
+3. `con.py` dosyasını çalıştırın ve gelen satıra ESP32'nin IP adresini yazın:
+
+    ```
+    esp32 ip >> 192.168.x.xx
+    ```
+
+ESP32’ye bağlandığınızda sistem size bazı genel bilgiler verir. Artık içindeki araçları kullanabilirsiniz.
+
+> **Not:** Araçlar burada belirtilmemiştir.
