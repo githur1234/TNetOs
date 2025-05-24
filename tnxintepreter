@@ -20,9 +20,9 @@ def interpreter(filepath, conn):
             lcode.append(cln)
         elif lcodeap and cln == "]*":
             lcodeap = False
-        elif fcodeap and cln != "];"
+        elif fcodeap and cln != "];":
             fcodebuffer.append(cln)
-        elif fcodeap and cln == "];"
+        elif fcodeap and cln == "];":
             fcodeap=False
         else:
             if cln.startswith("print"):
@@ -50,7 +50,8 @@ def interpreter(filepath, conn):
                     conn.send(f"GPIO Value Error: {str(e)}".encode('utf-8'))
             elif cln.startswith("lp["):
                 lcodeap = True
-            elif cln.startswith("for")
+            elif cln.startswith("for"):
+                global rpn
                 rpn=int(str(cln.split('/')[1])[0:])
                 
                 
